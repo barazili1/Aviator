@@ -78,7 +78,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish, lang, them
           <h1 className={`text-3xl font-black tracking-[0.2em] uppercase drop-shadow-[0_0_20px_rgba(225,29,72,0.3)] 
             ${isArabic ? 'font-arabic tracking-normal' : 'font-orbitron'}
             ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>
-            Aviator <span className="text-rose-600">pro V3.0</span>
+            NINJA <span className="text-rose-600">pro V3.0</span>
           </h1>
           <div className="flex items-center justify-center gap-3 opacity-40">
             <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-rose-600"></div>
