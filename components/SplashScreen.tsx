@@ -67,7 +67,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish, lang, them
             <div className="absolute inset-0 bg-rose-600 blur-[80px] opacity-20 group-hover:opacity-40 transition-opacity duration-1000"></div>
             <img 
               src="https://image2url.com/r2/bucket2/images/1766784510979-3fece383-00b0-4520-b8a6-809fe17cf95d.png" 
-              alt="Aviator Logo"
+              alt="NINJA STOR Logo"
               className="w-52 h-auto relative z-10 drop-shadow-[0_0_45px_rgba(225,29,72,0.8)] animate-[float_4s_ease-in-out_infinite]"
             />
           </div>
@@ -78,11 +78,11 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish, lang, them
           <h1 className={`text-3xl font-black tracking-[0.2em] uppercase drop-shadow-[0_0_20px_rgba(225,29,72,0.3)] 
             ${isArabic ? 'font-arabic tracking-normal' : 'font-orbitron'}
             ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>
-            NINJA <span className="text-rose-600">pro V3.0</span>
+            NINJA <span className="text-rose-600">STOR V1</span>
           </h1>
           <div className="flex items-center justify-center gap-3 opacity-40">
             <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-rose-600"></div>
-            <span className={`text-[8px] font-black tracking-[0.5em] font-orbitron ${theme === 'dark' ? 'text-white' : 'text-slate-500'}`}>AI_RADAR_V3</span>
+            <span className={`text-[8px] font-black tracking-[0.5em] font-orbitron ${theme === 'dark' ? 'text-white' : 'text-slate-500'}`}>NINJA_STOR_V1</span>
             <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-rose-600"></div>
           </div>
         </div>

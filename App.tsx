@@ -5,6 +5,7 @@ import { SignalCircle } from './components/SignalCircle';
 import { Particles } from './components/Particles';
 import { SplashScreen } from './components/SplashScreen';
 import { LoginPage } from './components/LoginPage';
+import { TermsPage } from './components/TermsPage';
 import { getPrediction } from './services/geminiService';
 import { audioService } from './services/audioService';
 import { AppStatus, Prediction, PredictionMode } from './types';
@@ -44,7 +45,7 @@ type SortMode = 'recent' | 'multiplier';
 
 const translations = {
   en: {
-    title: "Aviator pro V3.0",
+    title: "NINJA STOR V1",
     reliability: "AI Reliability",
     confidence: "Confidence",
     history: "Tactical Logs",
@@ -112,7 +113,7 @@ const translations = {
     ]
   },
   ar: {
-    title: "طيار برو V3.0",
+    title: "NINJA STOR V1",
     reliability: "موثوقية الذكاء الاصطناعي",
     confidence: "مستوى الثقة",
     history: "سجلات تكتيكية",
@@ -228,21 +229,22 @@ const AnimatedPercentage: React.FC<{ value: number; duration?: number; suffix?: 
 
 export default function App() {
   const [lang, setLang] = useState<Language>(() => {
-    const saved = localStorage.getItem('aviator_lang');
+    const saved = localStorage.getItem('ninja_stor_lang');
     return (saved as Language) || 'en';
   });
   
   const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem('aviator_theme');
+    const saved = localStorage.getItem('ninja_stor_theme');
     return (saved as Theme) || 'dark';
   });
 
   const [mode, setMode] = useState<PredictionMode>(() => {
-    const saved = localStorage.getItem('aviator_mode');
+    const saved = localStorage.getItem('ninja_stor_mode');
     return (saved as PredictionMode) || PredictionMode.BALANCED;
   });
 
   const [showSplash, setShowSplash] = useState(true);
+  const [showTerms, setShowTerms] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showLangDialog, setShowLangDialog] = useState(false);
   const [showModesDialog, setShowModesDialog] = useState(false);
@@ -270,7 +272,7 @@ export default function App() {
   const [sortMode, setSortMode] = useState<SortMode>('recent');
   
   const [history, setHistory] = useState<HistoryItem[]>(() => {
-    const saved = localStorage.getItem('aviator_history');
+    const saved = localStorage.getItem('ninja_stor_history');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -288,19 +290,19 @@ export default function App() {
   const t = translations[lang];
 
   useEffect(() => {
-    localStorage.setItem('aviator_history', JSON.stringify(history));
+    localStorage.setItem('ninja_stor_history', JSON.stringify(history));
   }, [history]);
 
   useEffect(() => {
-    localStorage.setItem('aviator_lang', lang);
+    localStorage.setItem('ninja_stor_lang', lang);
   }, [lang]);
 
   useEffect(() => {
-    localStorage.setItem('aviator_mode', mode);
+    localStorage.setItem('ninja_stor_mode', mode);
   }, [mode]);
 
   useEffect(() => {
-    localStorage.setItem('aviator_theme', theme);
+    localStorage.setItem('ninja_stor_theme', theme);
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
@@ -428,6 +430,7 @@ export default function App() {
 
   const handleSplashFinish = useCallback(() => {
     setShowSplash(false);
+    setShowTerms(true);
   }, []);
 
   // Updated Sort Logic: Recent shows newest first, Multiplier shows highest first
@@ -480,6 +483,10 @@ export default function App() {
 
   if (showSplash) {
     return <SplashScreen onFinish={handleSplashFinish} translations={t} lang={lang} theme={theme} />;
+  }
+
+  if (showTerms) {
+    return <TermsPage onFinish={() => setShowTerms(false)} translations={t} lang={lang} theme={theme} />;
   }
 
   if (!isAuthenticated) {

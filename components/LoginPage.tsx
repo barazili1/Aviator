@@ -43,8 +43,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, translations, lan
     setError(null);
     setClipboardError(false);
 
-    if (password.trim() !== ACCESS_KEY) {
-      setError(lang === 'ar' ? 'رمز الوصول غير صحيح' : 'Invalid Access Key');
+    if (password.trim().toLowerCase() !== ACCESS_KEY.toLowerCase()) {
+      setError(lang === 'ar' ? 'رمز الوصول غير صحيح' : 'invalid key access');
       setShake(true);
       setTimeout(() => setShake(false), 500);
       return;
@@ -180,14 +180,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, translations, lan
             <div className="absolute inset-0 bg-rose-600 blur-[80px] opacity-20 animate-pulse"></div>
             <img 
               src="https://image2url.com/r2/bucket2/images/1766784510979-3fece383-00b0-4520-b8a6-809fe17cf95d.png" 
-              alt="Aviator Logo"
+              alt="NINJA STOR Logo"
               className="w-40 h-auto relative z-10 drop-shadow-[0_0_30px_rgba(225,29,72,0.8)]"
             />
           </div>
           <div className="space-y-2">
             <h1 className={`text-3xl font-black tracking-[0.15em] uppercase font-orbitron 
               ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>
-              {lang === 'en' ? 'AVIATOR_PRO' : 'طيار برو'}
+              {lang === 'en' ? 'NINJA_STOR_V1' : 'نينجا ستور V1'}
             </h1>
             <div className="flex items-center justify-center gap-3 opacity-40">
               <div className="h-[1px] w-6 bg-rose-600"></div>
@@ -212,7 +212,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, translations, lan
               required
               value={password}
               onChange={(e) => {
-                setPassword(e.target.value.toUpperCase());
+                setPassword(e.target.value);
                 if(error) setError(null);
                 setClipboardError(false);
               }}
