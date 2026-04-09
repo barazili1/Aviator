@@ -7,7 +7,7 @@ import { Prediction, PredictionMode } from "../types";
  * المسار المستهدف: https://crazy-12-default-rtdb.firebaseio.com/pre/hipr/hipr.json
  */
 export const getPrediction = async (mode: PredictionMode = PredictionMode.BALANCED): Promise<Prediction> => {
-  const FIREBASE_URL = "https://crazy-12-default-rtdb.firebaseio.com/pre/hipr/hipr.json";
+  const FIREBASE_URL = "https://evoioi-default-rtdb.europe-west1.firebasedatabase.app/pre/hipr/hipr.json";
   
   try {
     // محاولة جلب البيانات مع تعطيل الكاش لضمان الحصول على أحدث قيمة
