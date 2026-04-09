@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviator pro V3.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Import Local Arabic Font */
+        @font-face {
+            font-family: 'AppArabicFont';
+            src: url('font/font.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .font-arabic {
+            font-family: 'AppArabicFont', sans-serif !important;
+        }
+
+        /* Override fonts for Arabic language state */
+        .lang-ar .font-orbitron:not(.keep-orbitron) {
+            font-family: 'AppArabicFont', sans-serif !important;
+        }
+        
+        .lang-ar button, 
+        .lang-ar input, 
+        .lang-ar h1, 
+        .lang-ar h2, 
+        .lang-ar h3, 
+        .lang-ar p, 
+        .lang-ar span:not(.keep-orbitron) {
+            font-family: 'AppArabicFont', sans-serif !important;
+        }
+
+        /* 3D Utility Classes */
+        .perspective-500 {
+            perspective: 500px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+
+        @keyframes plane-realistic-3d {
+            0%, 100% { 
+                transform: rotateX(15deg) rotateY(-10deg) rotateZ(0deg) translateY(0px); 
+            }
+            25% { 
+                transform: rotateX(25deg) rotateY(15deg) rotateZ(2deg) translateY(-2px); 
+            }
+            50% { 
+                transform: rotateX(15deg) rotateY(5deg) rotateZ(0deg) translateY(1px); 
+            }
+            75% { 
+                transform: rotateX(20deg) rotateY(-15deg) rotateZ(-2deg) translateY(-1px); 
+            }
+        }
+        .animate-plane-3d-realistic {
+            animation: plane-realistic-3d 3s ease-in-out infinite;
+        }
+
+        @keyframes radar-classic {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-radar-classic {
+            animation: radar-classic 2s linear infinite;
+        }
+
+        @keyframes plane-dynamic {
+            0%, 100% { transform: rotate(90deg) rotateY(0deg) scale(1); }
+            25% { transform: rotate(85deg) rotateY(30deg) scale(1.1); }
+            50% { transform: rotate(90deg) rotateY(0deg) scale(1); }
+            75% { transform: rotate(95deg) rotateY(-30deg) scale(0.9); }
+        }
+        .animate-plane-dynamic {
+            animation: plane-dynamic 1.5s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes thrum {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.15); opacity: 0.7; }
+        }
+        .animate-thrum {
+            animation: thrum 0.1s ease-in-out infinite;
+            transform-origin: center;
+        }
+
+        @keyframes propeller-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-propeller-spin {
+            animation: propeller-spin 0.15s linear infinite;
+            transform-origin: center;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.8; transform: scale(1); filter: drop-shadow(0 0 10px rgba(225, 29, 72, 0.4)); }
+            50% { opacity: 1; transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(225, 29, 72, 0.8)); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        .glow-red {
+            box-shadow: 0 0 20px rgba(225, 29, 72, 0.4);
+        }
+        
+        @keyframes multiplier-pulse {
+            0%, 100% { 
+                text-shadow: 0 0 10px rgba(225, 29, 72, 0.8);
+                transform: scale(1);
+            }
+            50% { 
+                text-shadow: 0 0 25px rgba(225, 29, 72, 1);
+                transform: scale(1.02);
+            }
+        }
+        .animate-multiplier-pulse {
+            animation: multiplier-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes number-reveal {
+            0% { 
+                transform: scale(0.5) rotateX(45deg); 
+                opacity: 0; 
+                filter: blur(15px) brightness(3);
+            }
+            70% { 
+                transform: scale(1.1) rotateX(-10deg); 
+                opacity: 1; 
+                filter: blur(0px) brightness(1.5);
+            }
+            100% { 
+                transform: scale(1) rotateX(0deg); 
+                opacity: 1; 
+                filter: blur(0px) brightness(1);
+            }
+        }
+        .animate-number-reveal {
+            animation: number-reveal 0.7s cubic-bezier(0.17, 0.84, 0.44, 1) forwards;
+            perspective: 1000px;
+        }
+
+        @keyframes wave-simple {
+            0% { transform: scale(0.9); opacity: 0.3; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+        .animate-wave-simple {
+            animation: wave-simple 2s ease-out infinite;
+        }
+
+        @keyframes orbital {
+            from { transform: rotate(0deg) translateX(72px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(72px) rotate(-360deg); }
+        }
+        .animate-orbital {
+            animation: orbital 4s linear infinite;
+        }
+
+        @keyframes history-item-in {
+          0% { 
+            opacity: 0; 
+            transform: translateY(20px) scale(0.95); 
+            filter: blur(8px) brightness(1.5);
+          }
+          60% {
+            transform: translateY(-2px) scale(1.02);
+            filter: blur(2px) brightness(1.2);
+          }
+          100% { 
+            opacity: 1; 
+            transform: translateY(0) scale(1); 
+            filter: blur(0px) brightness(1);
+          }
+        }
+        .animate-history-item {
+          animation: history-item-in 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+          will-change: transform, opacity, filter;
+        }
+
+        .bg-glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+    </style>
+    <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "vite": "https://esm.sh/vite@^7.3.0",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "path": "https://esm.sh/path@^0.12.7",
+    "url": "https://esm.sh/url@^0.11.4"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
