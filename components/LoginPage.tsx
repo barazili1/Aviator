@@ -22,7 +22,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, translations, lan
   const [shake, setShake] = useState(false);
   const [clipboardError, setClipboardError] = useState(false);
 
-  const ACCESS_KEY = "HI7V-YU6I-OQP7-WUIJ";
+  const ACCESS_KEY = "Abdo7";
 
   const loadingTextsAr = ["جاري فحص التشفير...", "مزامنة الرادار تكتيكياً...", "تم التصريح بالدخول!"];
   const loadingTextsEn = ["Verifying Encryption...", "Syncing Tactical Radar...", "Authenticated Successfully!"];
