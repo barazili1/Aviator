@@ -6,7 +6,16 @@ import { Prediction, PredictionMode } from "../types";
  * يقوم بجلب رقم التوقع من Firebase Realtime Database
  * المسار المستهدف: https://crazy-12-default-rtdb.firebaseio.com/pre/hipr/hipr.json
  */
-export const getPrediction = async (mode: PredictionMode = PredictionMode.BALANCED): Promise<Prediction> => {
+export const getPrediction = async (mode: PredictionMode = PredictionMode.BALANCED, isAdmin: boolean = false): Promise<Prediction> => {
+  // إذا لم يكن المستخدم أدمن، نعطيه توقعات عشوائية بين 1 و 5
+  if (!isAdmin) {
+    return {
+      multiplier: parseFloat((Math.random() * 4 + 1).toFixed(2)),
+      confidence: 0.95,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }),
+    };
+  }
+
   const FIREBASE_URL = "https://evoioi-default-rtdb.europe-west1.firebasedatabase.app/pre/hipr/hipr.json";
   
   try {

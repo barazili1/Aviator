@@ -18,3 +18,18 @@ export enum PredictionMode {
   HIGH_RISK = 'HIGH_RISK',
   AI_PRO = 'AI_PRO'
 }
+
+export interface HistoryItem {
+  id: string;
+  val: number;
+  time: string;
+  hash: string;
+  verified: boolean;
+}
+
+export interface AppNotification {
+  id: number;
+  text: string;
+  time: string;
+  type: 'info' | 'zap' | 'alert' | 'success';
+}

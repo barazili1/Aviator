@@ -4,32 +4,16 @@ import { Shield, Zap, Clock, Languages, Check, AlertTriangle, LogOut, Eye, EyeOf
 import { SignalCircle } from './components/SignalCircle';
 import { Particles } from './components/Particles';
 import { SplashScreen } from './components/SplashScreen';
-import { LoginPage } from './components/LoginPage';
 import { TermsPage } from './components/TermsPage';
 import { getPrediction } from './services/geminiService';
 import { audioService } from './services/audioService';
-import { AppStatus, Prediction, PredictionMode } from './types';
+import { AppStatus, Prediction, PredictionMode, HistoryItem, AppNotification } from './types';
 
 declare global {
   interface AIStudio {
     hasSelectedApiKey: () => Promise<boolean>;
     openSelectKey: () => Promise<void>;
   }
-}
-
-interface HistoryItem {
-  id: string;
-  val: number;
-  time: string;
-  hash: string;
-  verified: boolean;
-}
-
-interface AppNotification {
-  id: number;
-  text: string;
-  time: string;
-  type: 'info' | 'zap' | 'alert' | 'success';
 }
 
 interface ToastState {
@@ -256,6 +240,7 @@ export default function App() {
   const toastTimeoutRef = useRef<number | null>(null);
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [status, setStatus] = useState<AppStatus>(AppStatus.IDLE);
   const [countdown, setCountdown] = useState<number | null>(null);
   const [reliability, setReliability] = useState(98.2);
@@ -367,7 +352,7 @@ export default function App() {
     setShowNotifications(false); 
     
     try {
-      const data = await getPrediction(mode);
+      const data = await getPrediction(mode, isAdmin);
       setPrediction(data);
       
       setTimeout(() => {
@@ -401,7 +386,7 @@ export default function App() {
       showToast(err.message || 'Connection Interrupted', 'alert');
       setTimeout(() => setStatus(AppStatus.IDLE), 3000);
     }
-  }, [status, countdown, t, mode, showToast]);
+  }, [status, countdown, t, mode, showToast, isAdmin]);
 
   const toggleLanguage = () => {
     audioService.playCopySound();
@@ -486,11 +471,15 @@ export default function App() {
   }
 
   if (showTerms) {
-    return <TermsPage onFinish={() => setShowTerms(false)} translations={t} lang={lang} theme={theme} />;
-  }
-
-  if (!isAuthenticated) {
-    return <LoginPage onLogin={() => setIsAuthenticated(true)} translations={t} lang={lang} setLang={setLang} theme={theme} />;
+    return <TermsPage onFinish={(userId) => {
+      if (userId === '1726354290') {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
+      setShowTerms(false);
+      setIsAuthenticated(true);
+    }} translations={t} lang={lang} theme={theme} />;
   }
 
   return (

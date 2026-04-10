@@ -5,7 +5,7 @@ import { Particles } from './Particles';
 import { audioService } from '../services/audioService';
 
 interface TermsPageProps {
-  onFinish: () => void;
+  onFinish: (userId: string) => void;
   translations: any;
   lang: string;
   theme?: 'dark' | 'light';
@@ -15,6 +15,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onFinish, translations, la
   const [userId, setUserId] = useState('');
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const PROMO_CODE = "Abdo7";
   const APK_URL = "https://1xbet.com/en/mobile"; // Placeholder URL
@@ -31,8 +32,15 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onFinish, translations, la
       setError(lang === 'ar' ? 'يرجى إدخال معرف اللاعب الخاص بك' : 'Please enter your Player ID');
       return;
     }
-    audioService.playLoginSuccess();
-    onFinish();
+    
+    setIsLoading(true);
+    audioService.playScanStart();
+    
+    setTimeout(() => {
+      setIsLoading(false);
+      audioService.playLoginSuccess();
+      onFinish(userId.trim());
+    }, 3000);
   };
 
   return (
@@ -43,6 +51,29 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onFinish, translations, la
       <div className="absolute inset-0 z-0">
         <Particles theme={theme} />
       </div>
+
+      {/* Loading Overlay */}
+      {isLoading && (
+        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/90 backdrop-blur-xl animate-[fadeIn_0.3s_ease-out]">
+          <div className="relative w-24 h-24 mb-8">
+            <div className="absolute inset-0 border-4 border-rose-500/20 rounded-full"></div>
+            <div className="absolute inset-0 border-4 border-rose-500 border-t-transparent rounded-full animate-spin"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <ShieldCheck size={32} className="text-rose-500 animate-pulse" />
+            </div>
+          </div>
+          <div className="text-center space-y-2">
+            <h3 className="text-white font-black tracking-[0.2em] uppercase text-sm font-orbitron">
+              {lang === 'ar' ? 'جاري التحقق من الهوية' : 'VERIFYING_IDENTITY'}
+            </h3>
+            <div className="flex items-center justify-center gap-1">
+              <div className="w-1 h-1 bg-rose-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+              <div className="w-1 h-1 bg-rose-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+              <div className="w-1 h-1 bg-rose-500 rounded-full animate-bounce"></div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="flex-1 flex flex-col px-8 pt-12 pb-8 z-30 overflow-y-auto no-scrollbar">
         <div className="mb-8 text-center">
